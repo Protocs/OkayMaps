@@ -9,11 +9,13 @@ class MainWindow(QMainWindow):
         super().__init__(*args, **kwargs)
         uic.loadUi(WINDOW_PATH, self)
         self.map_widget = Map(self.map)
+        self.scheme_btn.clicked.connect(lambda: self.map_widget.set_map("map"))
+        self.sputnik_btn.clicked.connect(lambda: self.map_widget.set_map("sat"))
+        self.hybrid_btn.clicked.connect(lambda: self.map_widget.set_map("skl"))
 
     def keyReleaseEvent(self, event):
         key = event.key()
         changing = 0.0001 * (1.75 ** (19 - self.map_widget.z))
-        print(key)
 
         if key == QtCore.Qt.Key_PageUp and self.map_widget.z < 19:
             self.map_widget.z += 1
@@ -38,3 +40,5 @@ class MainWindow(QMainWindow):
         if key == QtCore.Qt.Key_Left and self.map_widget.coordinates[0] - changing > -175:
             self.map_widget.coordinates[0] -= changing
             self.map_widget.set_image(get_image(self.map_widget))
+
+

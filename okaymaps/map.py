@@ -12,6 +12,7 @@ class Map:
         self.coordinates = [58.977707, 53.404967]
 
         self.z = 16
+        self.l = "map"
 
         self.set_image(get_image(self))
 
@@ -23,7 +24,7 @@ class Map:
     @property
     def static_maps_params(self):
         return {"ll": coordinates_to_request(self.coordinates),
-                "l": "map",
+                "l": self.l,
                 "z": self.z}
 
     def set_image(self, image):
@@ -32,3 +33,7 @@ class Map:
         pixmap = QPixmap()
         pixmap.loadFromData(QByteArray(image))
         scene.addItem(QGraphicsPixmapItem(pixmap))
+
+    def set_map(self, map_type):
+        self.l = map_type
+        self.set_image(get_image(self))

@@ -1,9 +1,19 @@
 import sys
 
 import requests
+from PyQt5 import QtCore
 
 GEOCODER_SERVER = "http://geocode-maps.yandex.ru/1.x/"
 STATIC_API_SERVER = "http://static-maps.yandex.ru/1.x/"
+
+TRIGGER_BUTTONS = [
+    QtCore.Qt.Key_PageUp,
+    QtCore.Qt.Key_PageDown,
+    QtCore.Qt.Key_Up,
+    QtCore.Qt.Key_Down,
+    QtCore.Qt.Key_Right,
+    QtCore.Qt.Key_Left,
+]
 
 
 def request(server, params):
@@ -18,9 +28,6 @@ def request(server, params):
         print("Запрос не удалось выполнить. Проверьте наличие сети Интернет.")
         sys.exit(1)
 
-
-def get_image(map_object):
-    return request(STATIC_API_SERVER, map_object.static_maps_params).content
 
 def coordinates_to_request(coordinates):
     return ",".join(map(str, coordinates))

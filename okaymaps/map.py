@@ -14,7 +14,7 @@ class Map:
         self.z = 16
         self.l = "map"
 
-        self.set_image(get_image(self))
+        self.upd_image()
 
     @property
     def geocoder_params(self):
@@ -27,13 +27,21 @@ class Map:
                 "l": self.l,
                 "z": self.z}
 
-    def set_image(self, image):
+    @property
+    def image(self):
+        return request(STATIC_API_SERVER, self.static_maps_params).content
+
+    @property
+    def changing(self):
+        return 0.0001 * (1.75 ** (19 - self.z))
+
+    def upd_image(self):
         scene = QGraphicsScene()
         self.graphics_view.setScene(scene)
         pixmap = QPixmap()
-        pixmap.loadFromData(QByteArray(image))
+        pixmap.loadFromData(QByteArray(self.image))
         scene.addItem(QGraphicsPixmapItem(pixmap))
 
     def set_map(self, map_type):
         self.l = map_type
-        self.set_image(get_image(self))
+        self.upd_image()

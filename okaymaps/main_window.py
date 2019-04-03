@@ -23,18 +23,18 @@ class MainWindow(QMainWindow):
             self.map_widget.z -= 1
             self.map_widget.set_image(get_image(self.map_widget))
 
-        if key == 87 and self.map_widget.coordinates[1] + changing < 85:
+        if key == QtCore.Qt.Key_Up and self.map_widget.coordinates[1] + changing < 85:
             self.map_widget.coordinates[1] += changing
             self.map_widget.set_image(get_image(self.map_widget))
 
-        if key == 83 and self.map_widget.coordinates[1] - changing > -85:
+        if key == QtCore.Qt.Key_Down and self.map_widget.coordinates[1] - changing > -85:
             self.map_widget.coordinates[1] -= changing
             self.map_widget.set_image(get_image(self.map_widget))
 
-        if key == 68 and self.map_widget.coordinates[0] + changing < 175:
+        if key == QtCore.Qt.Key_Right and self.map_widget.coordinates[0] + changing < 175:
             self.map_widget.coordinates[0] += changing
             self.map_widget.set_image(get_image(self.map_widget))
 
-        if key == 65 and self.map_widget.coordinates[0] - changing > -175:
+        if key == QtCore.Qt.Key_Left and self.map_widget.coordinates[0] - changing > -175:
             self.map_widget.coordinates[0] -= changing
             self.map_widget.set_image(get_image(self.map_widget))

@@ -31,3 +31,15 @@ def request(server, params):
 
 def coordinates_to_request(coordinates):
     return ",".join(map(str, coordinates))
+
+
+def find_object(address):
+    params = {"geocode": address, "format": "json"}
+    response = request(GEOCODER_SERVER, params).json()["response"]
+    if response["GeoObjectCollection"]["metaDataProperty"]["GeocoderResponseMetaData"][
+        "found"] != "0":
+        return response["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
+
+
+def pt_to_request(coordinates):
+    return ",".join([coordinates_to_request(coordinates), "pm2rdm"])

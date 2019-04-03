@@ -13,19 +13,18 @@ class Map:
 
         self.z = 16
         self.l = "map"
+        self.pt = None
 
         self.upd_image()
 
     @property
-    def geocoder_params(self):
-        return {"geocode": coordinates_to_request(self.coordinates),
-                "format": "json"}
-
-    @property
     def static_maps_params(self):
-        return {"ll": coordinates_to_request(self.coordinates),
-                "l": self.l,
-                "z": self.z}
+        params = {"ll": coordinates_to_request(self.coordinates),
+                  "l": self.l,
+                  "z": self.z}
+        if self.pt:
+            params.update({"pt": pt_to_request(self.pt)})
+        return params
 
     @property
     def image(self):

@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow
 from .config import *
-from .utils import TRIGGER_BUTTONS
+from .utils import TRIGGER_BUTTONS, find_object
 from .map import Map
 from PyQt5 import uic, QtCore
 
@@ -14,10 +14,12 @@ class MainWindow(QMainWindow):
         self.sputnik_btn.clicked.connect(lambda: self.map_widget.set_map("sat"))
         self.hybrid_btn.clicked.connect(lambda: self.map_widget.set_map("skl"))
 
+        self.search_btn.clicked.connect(self.search_result)
+
     def keyReleaseEvent(self, event):
         key = event.key()
         if key not in TRIGGER_BUTTONS:
-            return False
+            return
 
         if key == QtCore.Qt.Key_PageUp and self.map_widget.z < 19:
             self.map_widget.z += 1
@@ -43,3 +45,12 @@ class MainWindow(QMainWindow):
                 self.map_widget.coordinates[0] - self.map_widget.changing > -175:
             self.map_widget.coordinates[0] -= self.map_widget.changing * 2
         self.map_widget.upd_image()
+
+    def search_result(self):
+        address = self.search_text.toPlainText()
+        result = find_object(address)
+        if result:
+            coords = list(map(float, result["Point"]["pos"].split()))
+            self.map_widget.coordinates = coords
+            self.map_widget.pt = coords
+            self.map_widget.upd_image()

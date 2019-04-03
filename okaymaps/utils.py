@@ -10,7 +10,7 @@ def request(server, params):
     try:
         response = requests.get(server, params=params)
         if not response:
-            print("Ошибка выполнения запроса:")
+            print("Ошибка выполнения запроса:", params)
             print("HTTP статус:", response.status_code, "(", response.reason, ")")
             sys.exit(1)
         return response
@@ -20,7 +20,7 @@ def request(server, params):
 
 
 def get_image(map_object):
-    return request(STATIC_API_SERVER, map_object.params).content
+    return request(STATIC_API_SERVER, map_object.static_maps_params).content
 
 def coordinates_to_request(coordinates):
     return ",".join(map(str, coordinates))

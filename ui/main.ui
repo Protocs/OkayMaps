@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>622</width>
+    <width>636</width>
     <height>600</height>
    </rect>
   </property>
@@ -19,8 +19,8 @@
      <widget class="QGraphicsView" name="map">
       <property name="minimumSize">
        <size>
-        <width>600</width>
-        <height>450</height>
+        <width>610</width>
+        <height>460</height>
        </size>
       </property>
       <property name="maximumSize">
@@ -54,8 +54,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>622</width>
-     <height>26</height>
+     <width>636</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>

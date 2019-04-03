@@ -9,7 +9,7 @@ class Map:
     def __init__(self, graphics_view):
         self.graphics_view = graphics_view
         # Текущие координаты карты
-        self.coordinates = (58.977707, 53.404967)
+        self.coordinates = [58.977707, 53.404967]
 
         self.z = 16
 

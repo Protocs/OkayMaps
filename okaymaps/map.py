@@ -11,6 +11,8 @@ class Map:
         # Текущие координаты карты
         self.coordinates = (58.977707, 53.404967)
 
+        self.z = 16
+
         self.set_image(get_image(self))
 
     @property
@@ -22,7 +24,7 @@ class Map:
     def static_maps_params(self):
         return {"ll": coordinates_to_request(self.coordinates),
                 "l": "map",
-                "z": 16}
+                "z": self.z}
 
     def set_image(self, image):
         scene = QGraphicsScene()

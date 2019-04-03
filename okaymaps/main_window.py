@@ -52,5 +52,5 @@ class MainWindow(QMainWindow):
         if result:
             coords = list(map(float, result["Point"]["pos"].split()))
             self.map_widget.coordinates = coords
-            self.map_widget.pt = coords
+            self.map_widget.pt = coords.copy()
             self.map_widget.upd_image()

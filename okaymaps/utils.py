@@ -1,5 +1,3 @@
-import sys
-
 import requests
 from PyQt5 import QtCore
 
@@ -15,6 +13,54 @@ TRIGGER_BUTTONS = [
     QtCore.Qt.Key_Left,
 ]
 
+_LAT_RANGE = (-85, 86)
+_LONG_RANGE = (-175, 176)
+
+
+def clamp(val, min_, max_):
+    """Ограничивает ``val`` между ``min_`` и ``max_``."""
+    return min(max_, max(val, min_))
+
+
+class LongLat:
+    """Широта и долгота.
+
+    Автоматически обновляет карту при изменении.
+    """
+
+    def __init__(self, long, lat, map_widget):
+        self._map_widget = map_widget
+        self._long = long
+        self._lat = lat
+
+    @property
+    def long(self):
+        return self._long
+
+    @long.setter
+    def long(self, value):
+        self._long = clamp(value, *_LONG_RANGE)
+        self._map_widget.upd_image()
+
+    @property
+    def lat(self):
+        return self._lat
+
+    @lat.setter
+    def lat(self, value):
+        self._lat = clamp(value, *_LAT_RANGE)
+        self._map_widget.upd_image()
+
+    def __str__(self):
+        return str(self.long) + "," + str(self.lat)
+
+    def copy(self):
+        return LongLat(self.long, self.lat, self._map_widget)
+
+    @property
+    def mark_str(self):
+        return str(self) + ",pm2rdm"
+
 
 def request(server, params):
     try:
@@ -22,24 +68,17 @@ def request(server, params):
         if not response:
             print("Ошибка выполнения запроса:", params)
             print("HTTP статус:", response.status_code, "(", response.reason, ")")
-            sys.exit(1)
+            exit(1)
         return response
-    except:
+    except ConnectionError:
         print("Запрос не удалось выполнить. Проверьте наличие сети Интернет.")
-        sys.exit(1)
-
-
-def coordinates_to_request(coordinates):
-    return ",".join(map(str, coordinates))
+        exit(1)
 
 
 def find_object(address):
     params = {"geocode": address, "format": "json"}
     response = request(GEOCODER_SERVER, params).json()["response"]
-    if response["GeoObjectCollection"]["metaDataProperty"]["GeocoderResponseMetaData"][
-        "found"] != "0":
+    geo_obj_collection = response["GeoObjectCollection"]
+    grmd = geo_obj_collection["metaDataProperty"]["GeocoderResponseMetaData"]
+    if grmd["found"] != "0":
         return response["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
-
-
-def pt_to_request(coordinates):
-    return ",".join([coordinates_to_request(coordinates), "pm2rdm"])

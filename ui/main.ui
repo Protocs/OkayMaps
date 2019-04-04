@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>636</width>
-    <height>635</height>
+    <height>600</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -26,8 +26,8 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
      <widget class="QGraphicsView" name="map">
       <property name="minimumSize">
        <size>
@@ -43,8 +43,11 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
+    <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QTextEdit" name="search_text">
         <property name="maximumSize">
@@ -76,7 +79,7 @@
       </item>
      </layout>
     </item>
-    <item row="2" column="0">
+    <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
        <widget class="QPushButton" name="scheme_btn">
@@ -92,7 +95,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="sputnik_btn">
+       <widget class="QPushButton" name="satellite_btn">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -121,17 +124,6 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>636</width>
-     <height>26</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

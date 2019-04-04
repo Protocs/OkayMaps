@@ -14,6 +14,7 @@ class MainWindow(QMainWindow):
         self.satellite_btn.clicked.connect(lambda: self.map_widget.set_map("sat"))
         self.hybrid_btn.clicked.connect(lambda: self.map_widget.set_map("skl"))
 
+        self.reset_btn.clicked.connect(self.reset_result)
         self.search_btn.clicked.connect(self.search_result)
 
     def keyReleaseEvent(self, event):
@@ -49,3 +50,7 @@ class MainWindow(QMainWindow):
             self.map_widget.coordinates = coords
             self.map_widget.mark = coords.copy()
             self.map_widget.upd_image()
+
+    def reset_result(self):
+        self.map_widget.mark = None
+        self.map_widget.upd_image()

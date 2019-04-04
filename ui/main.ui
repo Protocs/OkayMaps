@@ -77,6 +77,19 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QPushButton" name="reset_btn">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Сбросить результат</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item>

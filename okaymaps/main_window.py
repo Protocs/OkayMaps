@@ -9,7 +9,7 @@ class MainWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         uic.loadUi(WINDOW_PATH, self)
-        self.map_widget = Map(self.map)
+        self.map_widget = Map(self.map, self)
         self.scheme_btn.clicked.connect(lambda: self.map_widget.set_map("map"))
         self.satellite_btn.clicked.connect(lambda: self.map_widget.set_map("sat"))
         self.hybrid_btn.clicked.connect(lambda: self.map_widget.set_map("skl"))
@@ -47,10 +47,14 @@ class MainWindow(QMainWindow):
             coords = LongLat(
                 *map(float, result["Point"]["pos"].split()), self.map_widget
             )
+            data = result["metaDataProperty"]["GeocoderMetaData"]
+            full_address = data["AddressDetails"]["Country"]["AddressLine"]
             self.map_widget.coordinates = coords
             self.map_widget.mark = coords.copy()
+            self.map_widget.full_address = full_address
             self.map_widget.upd_image()
 
     def reset_result(self):
         self.map_widget.mark = None
+        self.map_widget.full_address = None
         self.map_widget.upd_image()

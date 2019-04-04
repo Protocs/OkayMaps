@@ -93,6 +93,13 @@
      </layout>
     </item>
     <item>
+     <widget class="QLabel" name="full_address">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
        <widget class="QPushButton" name="scheme_btn">

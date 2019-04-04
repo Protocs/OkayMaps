@@ -6,12 +6,14 @@ from okaymaps.utils import LongLat, request, STATIC_API_SERVER
 
 
 class Map:
-    def __init__(self, graphics_view):
+    def __init__(self, graphics_view, window):
         self.graphics_view = graphics_view
+        self.parent_window = window
 
         self._z = 16
         self._draw_mode = "map"
         self.mark = None
+        self._full_address = None
 
         # Текущие координаты карты
         self.coordinates = LongLat(58.977707, 53.404967, self)
@@ -21,6 +23,15 @@ class Map:
     @property
     def z(self):
         return self._z
+
+    @property
+    def full_address(self):
+        return self._full_address
+
+    @full_address.setter
+    def full_address(self, new_address):
+        self._full_address = new_address
+        self.parent_window.full_address.setText(self.full_address)
 
     @z.setter
     def z(self, new_z):

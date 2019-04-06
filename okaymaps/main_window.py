@@ -49,9 +49,12 @@ class MainWindow(QMainWindow):
             )
             data = result["metaDataProperty"]["GeocoderMetaData"]
             full_address = data["AddressDetails"]["Country"]["AddressLine"]
+            print(data)
             self.map_widget.coordinates = coords
             self.map_widget.mark = coords.copy()
             self.map_widget.full_address = full_address
+            if self.index_checkbox.isChecked() and "postal_code" in data["Address"]:
+                self.map_widget.full_address += ", " + data["Address"]["postal_code"]
             self.map_widget.upd_image()
 
     def reset_result(self):

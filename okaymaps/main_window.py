@@ -17,6 +17,8 @@ class MainWindow(QMainWindow):
         self.reset_btn.clicked.connect(self.reset_result)
         self.search_btn.clicked.connect(self.search_result)
 
+        self.index_checkbox.stateChanged.connect(self.add_or_remove_postal_index)
+
     def keyReleaseEvent(self, event):
         key = event.key()
 
@@ -39,6 +41,9 @@ class MainWindow(QMainWindow):
 
         if key == QtCore.Qt.Key_Left:
             self.map_widget.coordinates.long -= self.map_widget.move_offset * 2
+
+    def add_or_remove_postal_index(self, state):
+        self.search_result()
 
     def search_result(self):
         address = self.search_text.toPlainText()

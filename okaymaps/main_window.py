@@ -42,6 +42,26 @@ class MainWindow(QMainWindow):
         if key == QtCore.Qt.Key_Left:
             self.map_widget.coordinates.long -= self.map_widget.move_offset * 2
 
+    def mousePressEvent(self, event):
+        x_mouse = event.pos().x()
+        y_mouse = event.pos().y()
+        print(x_mouse, y_mouse)
+
+        x_center = 305.5
+        y_center = 245
+        print(x_mouse, y_mouse)
+        x_offset = x_center - x_mouse
+        y_offset = y_center - y_mouse
+
+        x = self.map_widget.coordinates.long - x_offset * 335 / (
+                2 ** (self.map_widget.z + 8))
+        y = self.map_widget.coordinates.lat + y_offset * 205 / (
+                2 ** (self.map_widget.z + 8))
+
+        mark = LongLat(x, y, self.map_widget)
+        self.map_widget.mark = mark
+        self.map_widget.upd_image()
+
     def add_or_remove_postal_index(self, state):
         self.search_result()
 

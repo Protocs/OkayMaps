@@ -36,11 +36,10 @@ class Map:
     @z.setter
     def z(self, new_z):
         self._z = new_z
-        if self._z < 0:
-            self._z = 0
+        if self._z < 2:
+            self._z = 2
         if self._z > 19:
             self._z = 19
-
         self.upd_image()
 
     @property

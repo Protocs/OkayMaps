@@ -45,17 +45,15 @@ class MainWindow(QMainWindow):
     def mousePressEvent(self, event):
         x_mouse = event.pos().x()
         y_mouse = event.pos().y()
-        print(x_mouse, y_mouse)
 
-        x_center = 305.5
-        y_center = 245
-        print(x_mouse, y_mouse)
+        x_center = 316
+        y_center = 250
         x_offset = x_center - x_mouse
         y_offset = y_center - y_mouse
 
-        x = self.map_widget.coordinates.long - x_offset * 335 / (
+        x = self.map_widget.coordinates.long - x_offset * 360 / (
                 2 ** (self.map_widget.z + 8))
-        y = self.map_widget.coordinates.lat + y_offset * 205 / (
+        y = self.map_widget.coordinates.lat + y_offset * 220 / (
                 2 ** (self.map_widget.z + 8))
 
         mark = LongLat(x, y, self.map_widget)

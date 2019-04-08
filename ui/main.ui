@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>636</width>
+    <width>800</width>
     <height>600</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>636</width>
+    <width>800</width>
     <height>600</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>636</width>
+    <width>800</width>
     <height>600</height>
    </size>
   </property>
@@ -26,28 +26,34 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>11</x>
       <y>17</y>
-      <width>612</width>
+      <width>781</width>
       <height>579</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QGraphicsView" name="map">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
-         <width>610</width>
+         <width>620</width>
          <height>460</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>610</width>
-         <height>450</height>
+         <width>620</width>
+         <height>460</height>
         </size>
        </property>
       </widget>

@@ -52,7 +52,7 @@ class LongLat:
         self._map_widget.upd_image()
 
     def __str__(self):
-        return str(self.long) + "," + str(self.lat)
+        return str(round(self.long, 6)) + "," + str(round(self.lat, 6))
 
     def copy(self):
         return LongLat(self.long, self.lat, self._map_widget)

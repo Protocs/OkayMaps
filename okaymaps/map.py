@@ -14,6 +14,8 @@ class Map:
         self._draw_mode = "map"
         self.mark = None
         self._full_address = None
+        self._last_address = None
+        self._last_postal = None
 
         # Текущие координаты карты
         self.coordinates = LongLat(58.977707, 53.404967, self)

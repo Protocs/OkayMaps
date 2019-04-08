@@ -46,22 +46,37 @@ class MainWindow(QMainWindow):
         x_mouse = event.pos().x()
         y_mouse = event.pos().y()
 
-        x_center = 316
-        y_center = 250
+        x_center = 322
+        y_center = 220
         x_offset = x_center - x_mouse
         y_offset = y_center - y_mouse
 
         x = self.map_widget.coordinates.long - x_offset * 360 / (
                 2 ** (self.map_widget.z + 8))
-        y = self.map_widget.coordinates.lat + y_offset * 220 / (
+        y = self.map_widget.coordinates.lat + (y_offset + 30) * 220 / (
                 2 ** (self.map_widget.z + 8))
 
         mark = LongLat(x, y, self.map_widget)
         self.map_widget.mark = mark
+        gcmd = find_object(str(mark))["metaDataProperty"]["GeocoderMetaData"]
+        self.map_widget._last_address = gcmd["text"]
+        print(gcmd)
+        self.map_widget._last_postal = gcmd["Address"].get("postal_code", " - ")
+        if self.index_checkbox.isChecked():
+            self.full_address.setText(
+                gcmd["text"] + ", " + gcmd["Address"].get("postal_code", " - "))
+        else:
+            self.full_address.setText(gcmd["text"])
         self.map_widget.upd_image()
 
     def add_or_remove_postal_index(self, state):
-        self.search_result()
+        if self.map_widget._last_address is None:
+            return
+        if state == QtCore.Qt.Checked:
+            self.full_address.setText(
+                self.map_widget._last_address + ", " + self.map_widget._last_postal)
+        else:
+            self.full_address.setText(self.map_widget._last_address)
 
     def search_result(self):
         address = self.search_text.toPlainText()
@@ -76,8 +91,13 @@ class MainWindow(QMainWindow):
             self.map_widget.coordinates = coords
             self.map_widget.mark = coords.copy()
             self.map_widget.full_address = full_address
-            if self.index_checkbox.isChecked() and "postal_code" in data["Address"]:
-                self.map_widget.full_address += ", " + data["Address"]["postal_code"]
+            self.map_widget._last_address = full_address
+            self.map_widget._last_address = data["Address"].get("postal_code", " - ")
+            if self.index_checkbox.isChecked():
+                self.full_address.setText(
+                    data["text"] + ", " + data["Address"].get("postal_code", " - "))
+            else:
+                self.full_address.setText(data["text"])
             self.map_widget.upd_image()
 
     def reset_result(self):

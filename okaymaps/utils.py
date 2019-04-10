@@ -3,6 +3,7 @@ from PyQt5 import QtCore
 
 GEOCODER_SERVER = "http://geocode-maps.yandex.ru/1.x/"
 STATIC_API_SERVER = "http://static-maps.yandex.ru/1.x/"
+ORGANISATION_SEARCH_SERVER = "https://search-maps.yandex.ru/v1/"
 
 TRIGGER_BUTTONS = [
     QtCore.Qt.Key_PageUp,

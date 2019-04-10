@@ -1,8 +1,11 @@
 from PyQt5.QtWidgets import QMainWindow
+from math import cos
+
 from .config import *
-from .utils import find_object, LongLat
+from .utils import find_object, LongLat, request, ORGANISATION_SEARCH_SERVER
 from .map import Map
 from PyQt5 import uic, QtCore
+from .distance import lonlat_distance
 
 
 class MainWindow(QMainWindow):
@@ -56,6 +59,12 @@ class MainWindow(QMainWindow):
         y = self.map_widget.coordinates.lat + (y_offset + 30) * 220 / (
                 2 ** (self.map_widget.z + 8))
 
+        if event.button() == QtCore.Qt.LeftButton:
+            self.left_click(x, y)
+        elif event.button() == QtCore.Qt.RightButton:
+            self.right_click(x, y)
+
+    def left_click(self, x, y):
         mark = LongLat(x, y, self.map_widget)
         self.map_widget.mark = mark
         gcmd = find_object(str(mark))["metaDataProperty"]["GeocoderMetaData"]
@@ -68,6 +77,29 @@ class MainWindow(QMainWindow):
         else:
             self.full_address.setText(gcmd["text"])
         self.map_widget.upd_image()
+
+    def right_click(self, x, y):
+        parameters = {"ll": str(round(x, 6)) + "," + str(round(y, 6)),
+                      "type": "biz",
+                      "format": "json",
+                      "results": 500,
+                      "apikey": "d890f456-7c66-4912-80cc-5476d1d0b58e",
+                      "lang": "ru_RU"}
+        response = request(ORGANISATION_SEARCH_SERVER, parameters)
+        organizations = response.json()["features"]
+        print([o["properties"]["name"] for o in organizations])
+        print(len(organizations))
+        close_organizations = [org for org in organizations if lonlat_distance((x, y), org["geometry"]["coordinates"]) <= 50]
+        print([o["properties"]["name"] for o in close_organizations])
+        self.map_widget.mark = None
+        self.map_widget._last_address = None
+        self.map_widget._last_postal = None
+        self.map_widget.upd_image()
+        if not close_organizations:
+            self.map_widget.full_address = ""
+            return
+        first_organization = close_organizations[0]
+        self.map_widget.full_address = first_organization["properties"]["name"]
 
     def add_or_remove_postal_index(self, state):
         if self.map_widget._last_address is None:

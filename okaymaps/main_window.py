@@ -80,6 +80,7 @@ class MainWindow(QMainWindow):
 
     def right_click(self, x, y):
         parameters = {"ll": str(round(x, 6)) + "," + str(round(y, 6)),
+                      "spn": "0.0008,0.000003",
                       "type": "biz",
                       "format": "json",
                       "results": 500,
@@ -87,19 +88,21 @@ class MainWindow(QMainWindow):
                       "lang": "ru_RU"}
         response = request(ORGANISATION_SEARCH_SERVER, parameters)
         organizations = response.json()["features"]
-        print([o["properties"]["name"] for o in organizations])
-        print(len(organizations))
-        close_organizations = [org for org in organizations if lonlat_distance((x, y), org["geometry"]["coordinates"]) <= 50]
-        print([o["properties"]["name"] for o in close_organizations])
+        close_organization = {}
+        for org in organizations:
+            distance = lonlat_distance((x, y), org["geometry"]["coordinates"])
+            if distance < close_organization.get("distance", distance + 1):
+                close_organization = {"distance": distance,
+                                      "name": org["properties"]["name"],
+                                      "point": org["geometry"]["coordinates"]}
         self.map_widget.mark = None
         self.map_widget._last_address = None
         self.map_widget._last_postal = None
         self.map_widget.upd_image()
-        if not close_organizations:
+        if not close_organization or close_organization["distance"] > 50:
             self.map_widget.full_address = ""
             return
-        first_organization = close_organizations[0]
-        self.map_widget.full_address = first_organization["properties"]["name"]
+        self.map_widget.full_address = close_organization["name"]
 
     def add_or_remove_postal_index(self, state):
         if self.map_widget._last_address is None:

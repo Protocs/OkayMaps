@@ -95,14 +95,15 @@ class MainWindow(QMainWindow):
                 close_organization = {"distance": distance,
                                       "name": org["properties"]["name"],
                                       "point": org["geometry"]["coordinates"]}
-        self.map_widget.mark = None
         self.map_widget._last_address = None
         self.map_widget._last_postal = None
-        self.map_widget.upd_image()
         if not close_organization or close_organization["distance"] > 50:
             self.map_widget.full_address = ""
+            self.map_widget.upd_image()
             return
+        self.map_widget.mark = LongLat(*close_organization["point"], self.map_widget)
         self.map_widget.full_address = close_organization["name"]
+        self.map_widget.upd_image()
 
     def add_or_remove_postal_index(self, state):
         if self.map_widget._last_address is None:
